@@ -1,2 +1,3 @@
 # WhatTravel
-A travel app for fun
+An Android travel app for fun
+
