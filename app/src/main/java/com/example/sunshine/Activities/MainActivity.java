@@ -22,6 +22,7 @@ import com.example.sunshine.Models.Coordinate;
 import com.example.sunshine.Models.NeabySearchOption;
 import com.example.sunshine.Models.NearbySearch;
 import com.example.sunshine.R;
+import com.example.sunshine.helpers.WTLocationClient;
 import com.example.sunshine.utils.WTLog;
 
 import java.util.ArrayList;
@@ -44,13 +45,16 @@ public class MainActivity extends ActionBarActivity implements WTApiLoadManager.
     @Override
     protected void onStart() {
         super.onStart();
-        WTApiLoadManager loadManager = WTApiLoadManager.getInstance();
-        loadManager.setListener(this);
-        NearbySearch nearbySearch = new NearbySearch();
-        nearbySearch.setCurrentLocation(new Coordinate(42.3121836,-71.2129264));
-        nearbySearch.setRadius(100);
-        loadManager.loadDataFromServer(LOAD_NEARBY_PARK,nearbySearch);
-
+        Location currentLocation = WTLocationClient.getInstance().getLastKnowLocation();
+        WTLog.debug("Location",currentLocation.toString());
+        if (currentLocation !=null) {
+            WTApiLoadManager loadManager = WTApiLoadManager.getInstance();
+            loadManager.setListener(this);
+            NearbySearch nearbySearch = new NearbySearch();
+            nearbySearch.setCurrentLocation(new Coordinate(currentLocation.getLatitude(),currentLocation.getLatitude()));
+            nearbySearch.setRadius(100);
+            loadManager.loadDataFromServer(LOAD_NEARBY_PARK, nearbySearch);
+        }
     }
 
     @Override
