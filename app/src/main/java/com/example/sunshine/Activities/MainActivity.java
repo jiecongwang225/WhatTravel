@@ -16,6 +16,8 @@ import android.widget.ListView;
 
 import com.android.volley.VolleyError;
 import com.example.sunshine.API.WTApiLoadManager;
+import com.example.sunshine.Fragment.NeabySearchFragmentManager;
+import com.example.sunshine.Fragment.NearbySearchFragment;
 import com.example.sunshine.Models.Coordinate;
 import com.example.sunshine.Models.NeabySearchOption;
 import com.example.sunshine.Models.NearbySearch;
@@ -34,11 +36,8 @@ public class MainActivity extends ActionBarActivity implements WTApiLoadManager.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
+        NeabySearchFragmentManager neabySearchFragmentManager = new NeabySearchFragmentManager(this);
+        neabySearchFragmentManager.initFragment();
 
 
     }
@@ -80,39 +79,6 @@ public class MainActivity extends ActionBarActivity implements WTApiLoadManager.
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        private  List<String> weatherData=null;
-        private  ArrayAdapter<String> adapter=null;
-
-
-        public PlaceholderFragment() {
-           // getActivity will be n
-
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            weatherData = new ArrayList<String>();
-            weatherData.add("Today-Sunny-88/63");
-            weatherData.add("Tommorrow-Foggy-70/46");
-            weatherData.add("Weds-Cloudy-72/63");
-            weatherData.add("Thurs-Rainy-64/51");
-            weatherData.add("Fri-Foggy-70/46");
-            weatherData.add("Sat-Sunny-76/68");
-
-            adapter = new ArrayAdapter<String>(getActivity(),R.layout.list_item_forecast,R.id.list_item_forecast_textview,weatherData);
-            ListView listView = (ListView)rootView.findViewById(R.id.listview_forecast);
-            listView.setAdapter(adapter);
-            return rootView;
-        }
-    }
-
 
     @Override
     public void onDataSuccessLoad(int loaderId, String response) {
@@ -125,4 +91,5 @@ public class MainActivity extends ActionBarActivity implements WTApiLoadManager.
     public void onDataLoadFailed(int loaderId, VolleyError error) {
 
     }
+
 }
