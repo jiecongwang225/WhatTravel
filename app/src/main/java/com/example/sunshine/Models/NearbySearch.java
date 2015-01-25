@@ -17,6 +17,10 @@ public class NearbySearch extends GooglePlaces {
 
     private static final String RADIUS ="radius";
 
+    private static final String TYPES ="types";
+
+    private SearchTypes types;
+
 
     private Coordinate location;
 
@@ -39,6 +43,12 @@ public class NearbySearch extends GooglePlaces {
     public void setRadius(int miles) {
         radius = miles;
         params.put(RADIUS,String.valueOf(miles));
+    }
+
+    public void setSearchType(SearchTypes types) {
+        this.types =types;
+        params.put(TYPES,types.toString());
+
     }
 
 

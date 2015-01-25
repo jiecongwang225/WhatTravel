@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.sunshine.Models.NearbySearchResult;
 import com.example.sunshine.R;
+import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,19 +22,13 @@ import java.util.List;
  */
 public class NearbySearchFragment extends Fragment {
 
-    private  List<String> weatherData=null;
+    private final List<String> weatherData= Lists.newArrayList();
     private ArrayAdapter<String> adapter=null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main,container,false);
-        weatherData = new ArrayList<String>();
-        weatherData.add("Today-Sunny-88/63");
-        weatherData.add("Tommorrow-Foggy-70/46");
-        weatherData.add("Weds-Cloudy-72/63");
-        weatherData.add("Thurs-Rainy-64/51");
-        weatherData.add("Fri-Foggy-70/46");
-        weatherData.add("Sat-Sunny-76/68");
+
         adapter = new ArrayAdapter<String>(getActivity(),R.layout.list_item_forecast,R.id.list_item_forecast_textview,weatherData);
         ListView listView = (ListView)view.findViewById(R.id.listview_forecast);
         listView.setAdapter(adapter);
@@ -41,9 +37,12 @@ public class NearbySearchFragment extends Fragment {
 
 
 
-    public void onSearchResultLoad(List<Object> results){
-
-
+    public void onSearchResultLoad(List<NearbySearchResult> results){
+        weatherData.clear();
+        for (NearbySearchResult result:results) {
+            weatherData.add(result.getName());
+        }
+        adapter.notifyDataSetChanged();
     }
 
 
