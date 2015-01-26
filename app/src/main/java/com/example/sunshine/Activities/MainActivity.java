@@ -35,11 +35,9 @@ public class MainActivity extends ActionBarActivity implements WTApiLoadManager.
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new ForecastFragment())
                     .commit();
         }
-
-
     }
 
     @Override
