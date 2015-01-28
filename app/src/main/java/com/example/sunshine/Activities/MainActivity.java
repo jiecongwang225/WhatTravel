@@ -1,5 +1,6 @@
 package com.example.sunshine.Activities;
 
+import android.content.Intent;
 import android.location.Location;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -16,7 +17,9 @@ import android.widget.ListView;
 
 import com.android.volley.VolleyError;
 import com.example.sunshine.API.WTApiLoadManager;
+import com.example.sunshine.Fragment.ForecastFragment;
 import com.example.sunshine.Fragment.NeabySearchFragmentManager;
+import com.example.sunshine.Fragment.ForecastFragmentManager;
 import com.example.sunshine.Fragment.NearbySearchFragment;
 import com.example.sunshine.Models.Coordinate;
 import com.example.sunshine.Models.NeabySearchOption;
@@ -39,14 +42,13 @@ public class MainActivity extends ActionBarActivity implements WTApiLoadManager.
         NeabySearchFragmentManager neabySearchFragmentManager = new NeabySearchFragmentManager(this);
         neabySearchFragmentManager.initFragment();
 
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         Location currentLocation = WTLocationClient.getInstance().getLastKnowLocation();
-        WTLog.debug("Location",currentLocation.toString());
+        //WTLog.debug("Location",currentLocation.toString());
         if (currentLocation !=null) {
             WTApiLoadManager loadManager = WTApiLoadManager.getInstance();
             loadManager.setListener(this);
@@ -73,9 +75,11 @@ public class MainActivity extends ActionBarActivity implements WTApiLoadManager.
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent forecast = new Intent(MainActivity.this, ForecastAcitivty.class);
+            startActivity(forecast);
+            //ForecastFragmentManager forecastFragmentManager = new ForecastFragmentManager(this);
+            //forecastFragmentManager.initFragment();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
