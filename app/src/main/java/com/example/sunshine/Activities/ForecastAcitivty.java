@@ -20,6 +20,7 @@ import com.example.sunshine.utils.WTLog;
  * Created by Danjie on 1/27/2015.
  */
 public class ForecastAcitivty extends ActionBarActivity implements WTApiLoadManager.DataLoadLister{
+    private final String LOG_TAG = ForecastAcitivty.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +62,7 @@ public class ForecastAcitivty extends ActionBarActivity implements WTApiLoadMana
     @Override
     public void onDataLoadFailed(int loaderId, VolleyError error) {
         if (loaderId == WTAPIConstants.LOAD_WHEATHER_DATA) {
-            Log.v("FAILED", error.toString());
+            WTLog.error(LOG_TAG, error.toString());
         }
     }
 }
