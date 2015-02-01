@@ -1,25 +1,17 @@
 package com.example.sunshine.Activities;
 
+import android.content.Intent;
 import android.location.Location;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.android.volley.VolleyError;
+import com.example.sunshine.API.WTAPIConstants;
 import com.example.sunshine.API.WTApiLoadManager;
 import com.example.sunshine.Fragment.NeabySearchFragmentManager;
-import com.example.sunshine.Fragment.NearbySearchFragment;
 import com.example.sunshine.Models.Coordinate;
-import com.example.sunshine.Models.NeabySearchOption;
 import com.example.sunshine.Models.NearbySearch;
 import com.example.sunshine.Models.NearbySearchResult;
 import com.example.sunshine.Models.NearbySearchResults;
@@ -29,13 +21,11 @@ import com.example.sunshine.helpers.ResponseParser;
 import com.example.sunshine.helpers.WTLocationClient;
 import com.example.sunshine.utils.WTLog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity implements WTApiLoadManager.DataLoadLister {
 
-    private static final int LOAD_NEARBY_PARK =1;
     private NeabySearchFragmentManager mNearbySearchFragmentManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +39,6 @@ public class MainActivity extends ActionBarActivity implements WTApiLoadManager.
     protected void onStart() {
         super.onStart();
         Location currentLocation = WTLocationClient.getInstance().getLastKnowLocation();
-        WTLog.debug("Location", currentLocation.toString());
         if (currentLocation !=null) {
             WTApiLoadManager loadManager = WTApiLoadManager.getInstance();
             loadManager.setListener(this);
@@ -58,7 +47,7 @@ public class MainActivity extends ActionBarActivity implements WTApiLoadManager.
             SearchTypes searchTypes = new SearchTypes();
             searchTypes.addType("food");
             nearbySearch.setRadius(10000);
-            loadManager.loadDataFromServer(LOAD_NEARBY_PARK, nearbySearch);
+            loadManager.loadDataFromServer(WTAPIConstants.LOAD_NEARBY_PARK, nearbySearch);
         }
     }
 
@@ -80,14 +69,17 @@ public class MainActivity extends ActionBarActivity implements WTApiLoadManager.
         if (id == R.id.action_settings) {
             return true;
         }
-
+        if (id == R.id.forecast) {
+            Intent forecast = new Intent(MainActivity.this, ForecastAcitivty.class);
+            startActivity(forecast);
+        }
         return super.onOptionsItemSelected(item);
     }
 
 
     @Override
     public void onDataSuccessLoad(int loaderId, String response) {
-        if(loaderId == LOAD_NEARBY_PARK) {
+        if(loaderId == WTAPIConstants.LOAD_NEARBY_PARK) {
            NearbySearchResults nearbySearchResults = ResponseParser.getNearbySearchResults(response);
            WTLog.debug("parser....",nearbySearchResults.toString());
            if (nearbySearchResults !=null) {
@@ -98,6 +90,8 @@ public class MainActivity extends ActionBarActivity implements WTApiLoadManager.
 
               }
            }
+        }else if(loaderId == WTAPIConstants.LOAD_WHEATHER_DATA) {
+
         }
     }
 
