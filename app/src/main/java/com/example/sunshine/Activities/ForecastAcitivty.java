@@ -12,6 +12,7 @@ import com.example.sunshine.Fragment.ForecastFragment;
 import com.example.sunshine.Fragment.ForecastFragmentManager;
 import com.example.sunshine.Models.ForecastResults;
 import com.example.sunshine.Models.ForecastSearch;
+import com.example.sunshine.Models.Status;
 import com.example.sunshine.R;
 import com.example.sunshine.helpers.ResponseParser;
 import com.example.sunshine.utils.WTLog;
@@ -54,8 +55,12 @@ public class ForecastAcitivty extends ActionBarActivity implements WTApiLoadMana
     public void onDataSuccessLoad(int loaderId, String response) {
         if(loaderId == WTAPIConstants.LOAD_WHEATHER_DATA) {
             ForecastResults forecastResults = ResponseParser.getForecastResults(response);
-            WTLog.debug("parser....", forecastResults.toString());
-            ForecastFragment.onForecastResultLoad(forecastResults.getForecast_lists());
+            if(forecastResults != null){
+                WTLog.debug("parser....", forecastResults.toString());
+                if("200".equals(forecastResults.getStatus())) {
+                    ForecastFragment.onForecastResultLoad(forecastResults.getForecast_lists());
+                }
+            }
         }
     }
 
