@@ -43,14 +43,8 @@ public enum  WTApiLoadManager  {
     }
 
     public void loadDataFromServer(int loaderId,WTApiQueries queries) {
-        if(loaderId == WTAPIConstants.LOAD_NEARBY_PARK) {
             WTRequest request = new WTRequest(loaderId,mDataLoaderListener,queries.getRequestUrl());
             mRequestQueue.add(request);
-        } else if(loaderId == WTAPIConstants.LOAD_WHEATHER_DATA) {
-            WTRequest request = new WTRequest(loaderId,mDataLoaderListener,queries.getRequestUrl());
-            mRequestQueue.add(request);
-        }
-
     }
 
     public void stop() {

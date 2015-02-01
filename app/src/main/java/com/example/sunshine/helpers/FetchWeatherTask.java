@@ -1,12 +1,17 @@
 package com.example.sunshine.helpers;
 
 import android.util.Log;
+
+import com.example.sunshine.Models.ForecastResult;
+import com.example.sunshine.Models.Temperature;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Danjie on 1/27/2015.
@@ -46,6 +51,26 @@ public class FetchWeatherTask {
      * Fortunately parsing is easy:  constructor takes the JSON string and converts it
      * into an Object hierarchy for us.
      */
+
+    public static String[] getWeatherDataFromGson(List<ForecastResult> forecastResults) {
+        if(forecastResults != null) {
+            int size = forecastResults.size();
+            String[] results = new String[size];
+            int i = 0;
+            for(ForecastResult fr: forecastResults) {
+                String day = getReadableDateString(fr.getDate_time());
+                Temperature temp = fr.getTemperature();
+                double high = temp.getMax_temp();
+                double low = temp.getMin_temp();
+                String highAndLow = formatHighLows(high, low);
+                String description = fr.getWeather()[0].getDescription();
+                results[i++] = day + " - " + description + " - " + highAndLow;
+            }
+            return results;
+        }
+        return null;
+    }
+    //not use this method, instead using Gson to support lower version android
     public static String[] getWeatherDataFromJson(String forecastJsonStr, int numDays)
             throws JSONException, JSONException {
 

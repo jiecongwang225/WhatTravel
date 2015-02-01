@@ -90,8 +90,6 @@ public class MainActivity extends ActionBarActivity implements WTApiLoadManager.
 
               }
            }
-        }else if(loaderId == WTAPIConstants.LOAD_WHEATHER_DATA) {
-
         }
     }
 
