@@ -21,7 +21,11 @@ import com.example.sunshine.Fragment.NearbySearchFragment;
 import com.example.sunshine.Models.Coordinate;
 import com.example.sunshine.Models.NeabySearchOption;
 import com.example.sunshine.Models.NearbySearch;
+import com.example.sunshine.Models.NearbySearchResult;
+import com.example.sunshine.Models.NearbySearchResults;
+import com.example.sunshine.Models.SearchTypes;
 import com.example.sunshine.R;
+import com.example.sunshine.helpers.ResponseParser;
 import com.example.sunshine.helpers.WTLocationClient;
 import com.example.sunshine.utils.WTLog;
 
@@ -32,27 +36,28 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity implements WTApiLoadManager.DataLoadLister {
 
     private static final int LOAD_NEARBY_PARK =1;
+    private NeabySearchFragmentManager mNearbySearchFragmentManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        NeabySearchFragmentManager neabySearchFragmentManager = new NeabySearchFragmentManager(this);
-        neabySearchFragmentManager.initFragment();
-
-
+        mNearbySearchFragmentManager= new NeabySearchFragmentManager(this);
+        mNearbySearchFragmentManager.initFragment();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         Location currentLocation = WTLocationClient.getInstance().getLastKnowLocation();
-        WTLog.debug("Location",currentLocation.toString());
+        WTLog.debug("Location", currentLocation.toString());
         if (currentLocation !=null) {
             WTApiLoadManager loadManager = WTApiLoadManager.getInstance();
             loadManager.setListener(this);
             NearbySearch nearbySearch = new NearbySearch();
             nearbySearch.setCurrentLocation(new Coordinate(currentLocation.getLatitude(),currentLocation.getLatitude()));
-            nearbySearch.setRadius(100);
+            SearchTypes searchTypes = new SearchTypes();
+            searchTypes.addType("food");
+            nearbySearch.setRadius(10000);
             loadManager.loadDataFromServer(LOAD_NEARBY_PARK, nearbySearch);
         }
     }
@@ -83,7 +88,16 @@ public class MainActivity extends ActionBarActivity implements WTApiLoadManager.
     @Override
     public void onDataSuccessLoad(int loaderId, String response) {
         if(loaderId == LOAD_NEARBY_PARK) {
-            WTLog.debug("test", response);
+           NearbySearchResults nearbySearchResults = ResponseParser.getNearbySearchResults(response);
+           WTLog.debug("parser....",nearbySearchResults.toString());
+           if (nearbySearchResults !=null) {
+              String status = nearbySearchResults.getStatus();
+              if ("OK".equalsIgnoreCase(status)) {
+                  List<NearbySearchResult> results = nearbySearchResults.getResults();
+                  mNearbySearchFragmentManager.getNearbySearchFragment().onSearchResultLoad(results);
+
+              }
+           }
         }
     }
 
