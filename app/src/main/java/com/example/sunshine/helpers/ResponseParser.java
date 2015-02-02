@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
  * Created by jiecongwang on 1/25/15.
  */
 public class ResponseParser {
+    private final static String LOG_TAG = ResponseParser.class.getSimpleName();
 
     public static NearbySearchResults getNearbySearchResults(String response) {
         Gson gson = new GsonBuilder().serializeNulls().create();
@@ -20,7 +21,7 @@ public class ResponseParser {
 
     public static ForecastResults getForecastResults(String response) {
         Gson gson = new GsonBuilder().serializeNulls().create();
-        WTLog.debug("danjietag",response);
+        WTLog.debug(LOG_TAG,response);
         ForecastResults results = gson.fromJson(response,ForecastResults.class);
         return results;
     }
