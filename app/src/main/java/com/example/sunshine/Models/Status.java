@@ -8,7 +8,10 @@ public enum Status {
     ZERO_RESULTS("ZERO_RESULT"),
     OVER_QUERY_LIMIT("OVER_QUERY_LIMIT"),
     REQUEST_DENIED("REQUEST_DENIED"),
-    INVALID_REQUEST("INVALID_REQUEST");
+    INVALID_REQUEST("INVALID_REQUEST"),
+    SUCCESS("200"),
+    NOTFOUND("404");
+
 
     private String status;
     Status(String status) {

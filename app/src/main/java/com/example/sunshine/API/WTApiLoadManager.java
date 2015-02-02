@@ -43,8 +43,8 @@ public enum  WTApiLoadManager  {
     }
 
     public void loadDataFromServer(int loaderId,WTApiQueries queries) {
-        WTRequest request = new WTRequest(loaderId,mDataLoaderListener,queries.getRequestUrl());
-        mRequestQueue.add(request);
+            WTRequest request = new WTRequest(loaderId,mDataLoaderListener,queries.getRequestUrl());
+            mRequestQueue.add(request);
     }
 
     public void stop() {
