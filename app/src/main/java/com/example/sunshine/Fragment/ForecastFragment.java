@@ -17,7 +17,6 @@ import android.widget.ListView;
 
 import com.example.sunshine.Models.ForecastResult;
 import com.example.sunshine.R;
-import com.example.sunshine.helpers.FetchWeatherTask;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +26,7 @@ import java.util.List;
  * Encapsulates fetching the forecast and displaying it as a {@link ListView} layout.
  */
 public class ForecastFragment extends Fragment {
-    private static ArrayAdapter<String> mForecastAdapter;
+    private ArrayAdapter<String> mForecastAdapter;
     private final String LOG_TAG = ForecastFragment.class.getSimpleName();
 
     public ForecastFragment() {
@@ -38,13 +37,6 @@ public class ForecastFragment extends Fragment {
         super.onCreate(saveInstanceState);
         setHasOptionsMenu(true);
     }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.forecastfragment, menu);
-    }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,12 +79,11 @@ public class ForecastFragment extends Fragment {
         return rootView;
     }
 
-    public static void onForecastResultLoad(List<ForecastResult> forecastResults){
-        String[] result = FetchWeatherTask.getWeatherDataFromGson(forecastResults);
-        if (result != null) {
+    public void onForecastResultLoad(List<ForecastResult> forecastResults){
+        if (forecastResults != null) {
             mForecastAdapter.clear();
-            for (String dayForecastStr : result) {
-               mForecastAdapter.add(dayForecastStr);
+            for (ForecastResult fr : forecastResults) {
+               mForecastAdapter.add(fr.toString());
             }
         }
     }

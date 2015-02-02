@@ -48,4 +48,6 @@ public class ForecastSearch extends WTApiQueries {
     protected String getHttpScheme() {
         return WTAPIConstants.FORECAST_HTTP;
     }
+
+
 }

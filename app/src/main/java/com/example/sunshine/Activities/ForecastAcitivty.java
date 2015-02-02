@@ -2,17 +2,16 @@ package com.example.sunshine.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.android.volley.VolleyError;
 import com.example.sunshine.API.WTAPIConstants;
 import com.example.sunshine.API.WTApiLoadManager;
-import com.example.sunshine.Fragment.ForecastFragment;
 import com.example.sunshine.Fragment.ForecastFragmentManager;
 import com.example.sunshine.Models.ForecastResults;
 import com.example.sunshine.Models.ForecastSearch;
-import com.example.sunshine.Models.Status;
 import com.example.sunshine.R;
 import com.example.sunshine.helpers.ResponseParser;
 import com.example.sunshine.utils.WTLog;
@@ -22,12 +21,22 @@ import com.example.sunshine.utils.WTLog;
  */
 public class ForecastAcitivty extends ActionBarActivity implements WTApiLoadManager.DataLoadLister{
     private final String LOG_TAG = ForecastAcitivty.class.getSimpleName();
+    private WTApiLoadManager mloadManager = WTApiLoadManager.getInstance();
+
+    private ForecastFragmentManager mForecastFragmentManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ForecastFragmentManager forecastFragmentManager = new ForecastFragmentManager(this);
-        forecastFragmentManager.initFragment();
+        mForecastFragmentManager = new ForecastFragmentManager(this);
+        mForecastFragmentManager.initFragment();
+        mloadManager.setListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.forecastfragment, menu);
+        return true;
     }
 
     @Override
@@ -36,16 +45,13 @@ public class ForecastAcitivty extends ActionBarActivity implements WTApiLoadMana
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        WTApiLoadManager loadManager = WTApiLoadManager.getInstance();
-        loadManager.setListener(this);
         if (id == R.id.action_refresh) {
-            loadManager.setListener(this);
             ForecastSearch forecastSearch = new ForecastSearch();
             forecastSearch.setQuery(WTAPIConstants.FORECAST_QUERY_PARAM);
             forecastSearch.setFormat(WTAPIConstants.FORECAST_FORMAT_PARAM);
             forecastSearch.setUnits(WTAPIConstants.FORECAST_UNITS_PARAM);
             forecastSearch.setDays(WTAPIConstants.FORECAST_DAYS_PARAM);
-            loadManager.loadDataFromServer(WTAPIConstants.LOAD_WHEATHER_DATA, forecastSearch);
+            mloadManager.loadDataFromServer(WTAPIConstants.LOAD_WHEATHER_DATA, forecastSearch);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -58,7 +64,7 @@ public class ForecastAcitivty extends ActionBarActivity implements WTApiLoadMana
             if(forecastResults != null){
                 WTLog.debug("parser....", forecastResults.toString());
                 if("200".equals(forecastResults.getStatus())) {
-                    ForecastFragment.onForecastResultLoad(forecastResults.getForecast_lists());
+                    mForecastFragmentManager.getForecastFragment().onForecastResultLoad(forecastResults.getForecast_lists());
                 }
             }
         }

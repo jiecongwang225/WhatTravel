@@ -16,4 +16,6 @@ public class ForecastResults {
 
     public List<ForecastResult> getForecast_lists() { return forecast_lists; }
     public String getStatus() { return status; }
+
+
 }
