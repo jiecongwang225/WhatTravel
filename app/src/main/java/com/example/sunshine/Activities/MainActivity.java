@@ -73,6 +73,10 @@ public class MainActivity extends ActionBarActivity implements WTApiLoadManager.
             Intent forecast = new Intent(MainActivity.this, ForecastAcitivty.class);
             startActivity(forecast);
         }
+        if(id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

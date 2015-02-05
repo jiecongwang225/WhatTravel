@@ -6,5 +6,6 @@
     <string name="action_settings">Setting</string>
     <string name="forecast">Forecast</string>
     <string name="action_refresh" translatable="false">Refresh</string>
+    <string name="title_activity_detail">DetailActivity</string>
 
 </resources>

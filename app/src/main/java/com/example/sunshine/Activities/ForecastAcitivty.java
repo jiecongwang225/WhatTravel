@@ -1,5 +1,6 @@
 package com.example.sunshine.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -35,7 +36,9 @@ public class ForecastAcitivty extends ActionBarActivity implements WTApiLoadMana
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.forecastfragment, menu);
+        MenuInflater manueflater = getMenuInflater();
+        manueflater.inflate(R.menu.forecastfragment, menu);
+        manueflater.inflate(R.menu.menu_detail, menu);
         return true;
     }
 
@@ -49,6 +52,10 @@ public class ForecastAcitivty extends ActionBarActivity implements WTApiLoadMana
             forecastSearch.setUnits(WTAPIConstants.FORECAST_UNITS_PARAM);
             forecastSearch.setDays(WTAPIConstants.FORECAST_DAYS_PARAM);
             mloadManager.loadDataFromServer(WTAPIConstants.LOAD_WHEATHER_DATA, forecastSearch);
+            return true;
+        }
+        if(id == R.id.forecast_action_settings) {
+            //startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
