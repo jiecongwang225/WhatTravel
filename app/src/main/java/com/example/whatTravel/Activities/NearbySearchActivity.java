@@ -27,6 +27,7 @@ import java.util.List;
 public class NearbySearchActivity extends ActionBarActivity implements WTApiLoadManager.DataLoadLister {
 
     private NeabySearchFragmentManager mNearbySearchFragmentManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
