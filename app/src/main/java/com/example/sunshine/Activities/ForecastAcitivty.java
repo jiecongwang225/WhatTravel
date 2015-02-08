@@ -55,7 +55,7 @@ public class ForecastAcitivty extends ActionBarActivity implements WTApiLoadMana
             return true;
         }
         if(id == R.id.forecast_action_settings) {
-            //startActivity(new Intent(this, SettingsActivity.class));
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
