@@ -51,6 +51,9 @@ public class NearbySearch extends GooglePlaces {
 
     }
 
+    public void loadNextPage(String token) {
+        params.put("pagetoken",token);
+    }
 
     @Override
     protected String getSearchType() {

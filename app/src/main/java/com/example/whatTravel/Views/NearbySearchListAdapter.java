@@ -16,16 +16,20 @@ import com.example.whatTravel.API.WTApiLoadManager;
 import com.example.whatTravel.Models.NearbySearchResult;
 import com.example.whatTravel.R;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import org.w3c.dom.Text;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by jiecongwang on 2/5/15.
  */
 public class NearbySearchListAdapter extends RecyclerView.Adapter {
 
+
+    private final Set<String> ids = Sets.newHashSet();
 
     private final List<NearbySearchResult> m_NearbySearchResults = Lists.newArrayList();
     private final ImageLoader  mImageLoader = new ImageLoader(WTApiLoadManager.getInstance().getRequestQueue(),
@@ -78,8 +82,21 @@ public class NearbySearchListAdapter extends RecyclerView.Adapter {
     }
 
     public void reloadData(List<NearbySearchResult> results) {
-        m_NearbySearchResults.clear();
-        m_NearbySearchResults.addAll(results);
-        this.notifyDataSetChanged();
+         for (NearbySearchResult result :results) {
+             if (!ids.contains(result.getId())) {
+                 ids.add(result.getId());
+                 m_NearbySearchResults.add(result);
+             }
+         }
+         notifyDataSetChanged();
+
     }
+
+    public void clear() {
+        ids.clear();
+        m_NearbySearchResults.clear();
+    }
+
+
+
 }

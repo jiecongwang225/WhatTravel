@@ -24,9 +24,12 @@ import com.example.whatTravel.utils.WTLog;
 import java.util.List;
 
 
-public class NearbySearchActivity extends ActionBarActivity implements WTApiLoadManager.DataLoadLister {
+public class NearbySearchActivity extends ActionBarActivity implements WTApiLoadManager.DataLoadLister,NeabySearchFragmentManager.NearbySearchFragmentCallBacks {
 
     private NeabySearchFragmentManager mNearbySearchFragmentManager;
+    private String token;
+    private WTApiLoadManager loadManager;
+    private static final int LOAD_MORE =3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,20 +37,15 @@ public class NearbySearchActivity extends ActionBarActivity implements WTApiLoad
         setContentView(R.layout.activity_main);
         mNearbySearchFragmentManager= new NeabySearchFragmentManager(this);
         mNearbySearchFragmentManager.initFragment();
+        loadManager = WTApiLoadManager.getInstance();
+        loadManager.setListener(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Location currentLocation = WTLocationClient.getInstance().getLastKnowLocation();
-        if (currentLocation !=null) {
-            WTApiLoadManager loadManager = WTApiLoadManager.getInstance();
-            loadManager.setListener(this);
-            NearbySearch nearbySearch = new NearbySearch();
-            nearbySearch.setCurrentLocation(new Coordinate(currentLocation.getLatitude(),currentLocation.getLongitude()));
-            nearbySearch.setRadius(100);
-            loadManager.loadDataFromServer(WTAPIConstants.LOAD_NEARBY_PARK, nearbySearch);
-        }
+        loadManager.start();
+        loadNearby();
     }
 
     @Override
@@ -78,15 +76,14 @@ public class NearbySearchActivity extends ActionBarActivity implements WTApiLoad
 
     @Override
     public void onDataSuccessLoad(int loaderId, String response) {
-        if(loaderId == WTAPIConstants.LOAD_NEARBY_PARK) {
+        if(loaderId == WTAPIConstants.LOAD_NEARBY_PARK || loaderId ==LOAD_MORE) {
            NearbySearchResults nearbySearchResults = ResponseParser.getNearbySearchResults(response);
-           WTLog.debug("parser....",nearbySearchResults.toString());
            if (nearbySearchResults !=null) {
               String status = nearbySearchResults.getStatus();
               if ("OK".equalsIgnoreCase(status)) {
+                  token = nearbySearchResults.getNextToken();
                   List<NearbySearchResult> results = nearbySearchResults.getResults();
                   mNearbySearchFragmentManager.getNearbySearchFragment().onSearchResultLoad(results);
-
               }
            }
         }
@@ -94,7 +91,33 @@ public class NearbySearchActivity extends ActionBarActivity implements WTApiLoad
 
     @Override
     public void onDataLoadFailed(int loaderId, VolleyError error) {
+      //to-do....
+    }
+
+    @Override
+    public void loadMore() {
+       if (token !=null && !token.isEmpty()) {
+           NearbySearch nearbySearch = new NearbySearch();
+           nearbySearch.loadNextPage(token);
+           loadManager.loadDataFromServer(LOAD_MORE,nearbySearch);
+       }
 
     }
 
+    private void loadNearby() {
+        Location currentLocation = WTLocationClient.getInstance().getLastKnowLocation();
+        if (currentLocation !=null) {
+            NearbySearch nearbySearch = new NearbySearch();
+            nearbySearch.setCurrentLocation(new Coordinate(currentLocation.getLatitude(),currentLocation.getLongitude()));
+            nearbySearch.setRadius(100);
+            loadManager.loadDataFromServer(WTAPIConstants.LOAD_NEARBY_PARK, nearbySearch);
+        }
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        loadManager.stop();
+    }
 }

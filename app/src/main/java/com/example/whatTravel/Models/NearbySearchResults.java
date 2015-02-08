@@ -18,6 +18,9 @@ public class NearbySearchResults {
     @SerializedName("status")
     private String status;
 
+    @SerializedName("next_page_token")
+    private String next_token;
+
 
     public List<String> getHtml_attributions() {
         return html_attributions;
@@ -29,6 +32,10 @@ public class NearbySearchResults {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getNextToken() {
+        return next_token;
     }
 
 }
