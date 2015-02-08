@@ -26,4 +26,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'eu.the4thfloor.volley:com.android.volley:2015.01.06'
     compile 'com.google.android.gms:play-services-maps:6.5.87'
+    compile 'com.android.support:recyclerview-v7:21.0.+'
 }

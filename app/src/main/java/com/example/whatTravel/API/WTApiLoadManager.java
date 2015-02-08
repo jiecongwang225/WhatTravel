@@ -3,6 +3,7 @@ package com.example.whatTravel.API;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.example.whatTravel.Models.WTApiQueries;
 import com.example.whatTravel.context.WTApplication;
@@ -50,6 +51,12 @@ public enum  WTApiLoadManager  {
     public void start() {
         mRequestQueue.start();
     }
+
+
+    public RequestQueue getRequestQueue() {
+        return mRequestQueue;
+    }
+
 
 
 }

@@ -83,6 +83,7 @@ public class ForecastFragment extends Fragment {
             for (ForecastResult fr : forecastResults) {
                mForecastAdapter.add(fr.toString());
             }
+            mForecastAdapter.notifyDataSetChanged();
         }
     }
 

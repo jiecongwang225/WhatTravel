@@ -44,10 +44,8 @@ public class NearbySearchActivity extends ActionBarActivity implements WTApiLoad
             WTApiLoadManager loadManager = WTApiLoadManager.getInstance();
             loadManager.setListener(this);
             NearbySearch nearbySearch = new NearbySearch();
-            nearbySearch.setCurrentLocation(new Coordinate(currentLocation.getLatitude(),currentLocation.getLatitude()));
-            SearchTypes searchTypes = new SearchTypes();
-            searchTypes.addType("food");
-            nearbySearch.setRadius(10000);
+            nearbySearch.setCurrentLocation(new Coordinate(currentLocation.getLatitude(),currentLocation.getLongitude()));
+            nearbySearch.setRadius(100);
             loadManager.loadDataFromServer(WTAPIConstants.LOAD_NEARBY_PARK, nearbySearch);
         }
     }
