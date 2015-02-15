@@ -19,10 +19,6 @@ public abstract class WTApiQueries {
 
     protected Map<String,String> params = Maps.newHashMap();
 
-
-
-
-
     protected abstract String getBaseApiUrl();
 
     protected abstract String getHttpScheme();
@@ -38,13 +34,9 @@ public abstract class WTApiQueries {
        for (Map.Entry<String,String> entry : params.entrySet()) {
            uriBuilder.appendQueryParameter(entry.getKey(),entry.getValue());
        }
-        String ret = null;
-        try {
-            ret = java.net.URLDecoder.decode(uriBuilder.build().toString(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        WTLog.debug(LOG_TAG, ret);
-       return ret;
+
+       String requestUrl = uriBuilder.build().toString();
+       WTLog.debug(LOG_TAG, requestUrl);
+       return requestUrl;
     }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 
 import com.example.whatTravel.Models.NearbySearchResult;
 import com.example.whatTravel.R;
+import com.example.whatTravel.Views.DividerItemDecoration;
 import com.example.whatTravel.Views.NearbySearchListAdapter;
 import com.example.whatTravel.utils.WTLog;
 import com.google.common.collect.Lists;
@@ -50,6 +52,8 @@ public class NearbySearchFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycleView.setHasFixedSize(true);
         mRecycleView.setLayoutManager(mLayoutManager);
+        mRecycleView.addItemDecoration(new DividerItemDecoration(this.getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        mRecycleView.setItemAnimator(new DefaultItemAnimator());
         mRecycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
