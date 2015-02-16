@@ -69,4 +69,10 @@
         android:layout_marginTop="25dp"/>
     </LinearLayout>
 
+    <View
+        android:layout_height="1dp"
+        android:background="#589442"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/thumbnail"
+        />
 </com.example.whatTravel.Views.NearbyLocationItemView>
