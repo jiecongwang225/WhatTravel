@@ -19,7 +19,7 @@ public class NearbySearchResults {
     private String status;
 
     @SerializedName("next_page_token")
-    private String next_token;
+    private String next_token;    // this next_page_token is used to query the next 20 data.
 
 
     public List<String> getHtml_attributions() {

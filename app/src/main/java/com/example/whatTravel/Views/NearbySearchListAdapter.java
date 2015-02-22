@@ -38,8 +38,8 @@ public class NearbySearchListAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-       NearbySearchResult nearbySearchResult = m_NearbySearchResults.get(position);
-       NearbyLocationItemView.setNearbyResultForViewHolder((ViewHolder)holder,nearbySearchResult);
+        NearbySearchResult nearbySearchResult = m_NearbySearchResults.get(position);
+        NearbyLocationItemView.setNearbyResultForViewHolder((ViewHolder)holder,nearbySearchResult);
     }
 
     @Override
@@ -47,18 +47,18 @@ public class NearbySearchListAdapter extends RecyclerView.Adapter {
         return m_NearbySearchResults.size();
     }
 
-    public void reloadData(List<NearbySearchResult> results) {
-         for (NearbySearchResult result :results) {
-             if (!ids.contains(result.getId())) {
-                 ids.add(result.getId());
-                 m_NearbySearchResults.add(result);
-             }
-         }
-         notifyDataSetChanged();
+    public synchronized void reloadData(List<NearbySearchResult> results) {
+        for (NearbySearchResult result :results) {
+            if (!ids.contains(result.getId())) {
+                ids.add(result.getId());
+                m_NearbySearchResults.add(result);
+            }
+        }
+        notifyDataSetChanged();
 
     }
 
-    public void clear() {
+    public synchronized void clear() {
         ids.clear();
         m_NearbySearchResults.clear();
     }

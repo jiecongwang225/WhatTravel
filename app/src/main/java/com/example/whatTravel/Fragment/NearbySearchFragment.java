@@ -10,15 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.example.whatTravel.Models.NearbySearchResult;
 import com.example.whatTravel.R;
-import com.example.whatTravel.Views.DividerItemDecoration;
 import com.example.whatTravel.Views.NearbySearchListAdapter;
-import com.example.whatTravel.utils.WTLog;
-import com.google.common.collect.Lists;
 
 import java.util.List;
 
@@ -30,7 +25,6 @@ public class NearbySearchFragment extends Fragment {
     private RecyclerView mRecycleView;
     private NearbySearchListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private static final int ITEM_LEFT =4;
     private String token;
     private NeabySearchFragmentManager.NearbySearchFragmentCallBacks mCallbacks;
 
@@ -52,21 +46,18 @@ public class NearbySearchFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycleView.setHasFixedSize(true);
         mRecycleView.setLayoutManager(mLayoutManager);
-        mRecycleView.addItemDecoration(new DividerItemDecoration(this.getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mRecycleView.setItemAnimator(new DefaultItemAnimator());
         mRecycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-               super.onScrolled(recyclerView,dx,dy);
-               int lastVisableItem = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
-               int totalItem = mLayoutManager.getItemCount();
-               if (lastVisableItem >= totalItem-ITEM_LEFT && dy >0) {
-                   mCallbacks.loadMore();
-               }
-            }
+                super.onScrolled(recyclerView,dx,dy);
+                int lastVisableItem = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
+                int totalItem = mLayoutManager.getItemCount();
+                if (lastVisableItem >= totalItem && dy >0) {  // when recycleview ,recycle to the bottom, try to load more.
+                    mCallbacks.loadMore();
+                }
+             }
         });
-
         mAdapter = new NearbySearchListAdapter();
         mRecycleView.setAdapter(mAdapter);
         return view;
@@ -75,7 +66,7 @@ public class NearbySearchFragment extends Fragment {
 
 
     public void onSearchResultLoad(List<NearbySearchResult> results){
-       mAdapter.reloadData(results);
+        mAdapter.reloadData(results);
     }
 
     @Override

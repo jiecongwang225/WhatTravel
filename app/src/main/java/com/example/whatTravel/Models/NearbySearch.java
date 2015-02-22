@@ -45,6 +45,10 @@ public class NearbySearch extends GooglePlaces {
 
     }
 
+    public void setSearchType(String types) {
+        params.put(TYPES,types);
+    }
+
     public void loadNextPage(String token) {
         params.put("pagetoken",token);
     }

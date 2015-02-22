@@ -30,6 +30,7 @@ public class NearbySearchActivity extends ActionBarActivity implements WTApiLoad
     private String token;
     private WTApiLoadManager loadManager;
     private static final int LOAD_MORE =3;
+    private static final int RADIUS =10000;  //meters
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +92,7 @@ public class NearbySearchActivity extends ActionBarActivity implements WTApiLoad
 
     @Override
     public void onDataLoadFailed(int loaderId, VolleyError error) {
-      //to-do....
+        WTLog.error(""+loaderId,error.toString());
     }
 
     @Override
@@ -109,7 +110,8 @@ public class NearbySearchActivity extends ActionBarActivity implements WTApiLoad
         if (currentLocation !=null) {
             NearbySearch nearbySearch = new NearbySearch();
             nearbySearch.setCurrentLocation(new Coordinate(currentLocation.getLatitude(),currentLocation.getLongitude()));
-            nearbySearch.setRadius(100);
+            nearbySearch.setRadius(RADIUS);
+            nearbySearch.setSearchType(SearchTypes.getAllSearchTypes());
             loadManager.loadDataFromServer(WTAPIConstants.LOAD_NEARBY_PARK, nearbySearch);
         }
     }

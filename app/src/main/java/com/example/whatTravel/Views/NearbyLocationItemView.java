@@ -53,10 +53,13 @@ public class NearbyLocationItemView extends RelativeLayout {
         List<Photo> photos =  result.getPhotos();
         if (!Utils.isEmptySafe(photos)) {
             Photo thumbnail = photos.get(0);
-            GooglePlacePhotos placePhotos = new GooglePlacePhotos();
-            placePhotos.setPhotoReferences(thumbnail.getPhoto_reference());
-            placePhotos.setMaxWith(96);
-            viewHolder.mImageView.setImageUrl(placePhotos.getRequestUrl(), ImageHelper.getInstance().getImageLoader());
+            if (thumbnail !=null) {
+                GooglePlacePhotos placePhotos = new GooglePlacePhotos();
+                placePhotos.setPhotoReferences(thumbnail.getPhoto_reference());
+                placePhotos.setMaxWith(thumbnail.getWidth());
+                placePhotos.setMaxHeight(thumbnail.getHeight());
+                viewHolder.mImageView.setImageUrl(placePhotos.getRequestUrl(), ImageHelper.getInstance().getImageLoader());
+            }
         }
         viewHolder.mTitle.setText(result.getName());
         String rating = result.getRating()==null?"0/5":result.getRating()+"/5";
