@@ -11,8 +11,6 @@ public class NearbySearch extends GooglePlaces {
 
     private static final String SEARCH_TYPE = "nearbysearch";
 
-    private static final String APIKEY = "key";
-
     private static final String LOCATION = "location";
 
     private static final String RADIUS ="radius";
@@ -26,10 +24,6 @@ public class NearbySearch extends GooglePlaces {
 
     private int radius;
 
-    public  NearbySearch() {
-      super();
-      params.put(APIKEY, WTAPIConstants.GOOGLE_API_KEY);
-    }
 
     public void setCurrentLocation(Location nearby) {
         location = new Coordinate(nearby.getLatitude(),nearby.getLatitude());
@@ -51,6 +45,13 @@ public class NearbySearch extends GooglePlaces {
 
     }
 
+    public void setSearchType(String types) {
+        params.put(TYPES,types);
+    }
+
+    public void loadNextPage(String token) {
+        params.put("pagetoken",token);
+    }
 
     @Override
     protected String getSearchType() {

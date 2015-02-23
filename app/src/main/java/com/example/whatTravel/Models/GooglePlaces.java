@@ -1,6 +1,7 @@
 package com.example.whatTravel.Models;
 
 import com.example.whatTravel.API.WTAPIConstants;
+import com.example.whatTravel.utils.Utils;
 
 /**
  * Created by jiecongwang on 1/13/15.
@@ -10,7 +11,6 @@ public abstract class GooglePlaces extends WTApiQueries {
     private static final String MAPS ="maps";
     private static final String PLACE ="place";
     private static final String API ="api";
-    private static final String OUTPUT = "json";
 
     public GooglePlaces()
     {
@@ -18,9 +18,15 @@ public abstract class GooglePlaces extends WTApiQueries {
         paths.add(MAPS);
         paths.add(API);
         paths.add(PLACE);
-        paths.add(getSearchType());
-        paths.add(OUTPUT);
+        if (!Utils.isEmptyString(getSearchType())) {
+            paths.add(getSearchType());
+        }
+        paths.add(getOutputType());
+        params.put("key", WTAPIConstants.GOOGLE_API_KEY);
+    }
 
+    protected String getOutputType() {
+        return "json";
     }
 
     @Override

@@ -18,6 +18,9 @@ public class NeabySearchFragmentManager {
     private final Activity mActivity;
     private final int mContainerId;
 
+    public interface NearbySearchFragmentCallBacks {
+        public void loadMore();
+    }
 
 
     public NeabySearchFragmentManager(FragmentActivity activity) {

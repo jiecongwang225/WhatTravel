@@ -47,6 +47,9 @@ public class NearbySearchResult implements Serializable {
     @SerializedName("vicinity")
     private String vicinity;
 
+    @SerializedName("rating")
+    private String rating;
+
 
     public Geometry getGeometry() {
         return geometry;
@@ -92,4 +95,16 @@ public class NearbySearchResult implements Serializable {
         return vicinity;
     }
 
+    public String getRating() {
+        return rating;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof NearbySearchResult) {
+            NearbySearchResult result = (NearbySearchResult) object;
+            return id.equals(result.getId());
+        }
+        return false;
+    }
 }

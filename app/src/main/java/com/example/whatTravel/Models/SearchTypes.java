@@ -8,18 +8,31 @@ import java.util.List;
 /**
  * Created by jiecongwang on 1/25/15.
  */
-public class SearchTypes  {
+public enum  SearchTypes  {
+    airport("airport"),
+    amusement_park("amusement_park"),
+    aquariumM("aquarium"),
+    art_gallery("art_gallery"),
+    casino("casino"),
+    church("church"),
+    city_hall("city_hall"),
+    museum("museum"),
+    park("park"),
+    parking("parking"),
+    shopping_mall("shopping_mall"),
+    subway_stationN("subway_station"),
+    train_statio("train_station"),
+    university("university"),
+    zoo("zoo");
 
-
-    private List<String> types = Lists.newArrayList();
-
-
-    public void addType(String type) {
-       types.add(type);
+    private String mSearchType;
+    private SearchTypes(String searchType) {
+        mSearchType = searchType;
     }
 
-    public String toString() {
-        return types.size()>1? Joiner.on("|").join(types):types.get(0);
+    public static String getAllSearchTypes() {
+        return Joiner.on("|").join(SearchTypes.values());
     }
+
 
 }
