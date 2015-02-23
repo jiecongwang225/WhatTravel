@@ -62,7 +62,7 @@ public class NearbyLocationItemView extends RelativeLayout {
             }
         }
         viewHolder.mTitle.setText(result.getName());
-        String rating = result.getRating()==null?"0/5":result.getRating()+"/5";
+        String rating = result.getRating()==null?"0/0":result.getRating()+"/5";
         viewHolder.mRating.setText(rating);
         viewHolder.mVicinity.setText(result.getVicinity());
     }

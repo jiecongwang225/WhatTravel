@@ -82,12 +82,16 @@ public class NearbySearchActivity extends ActionBarActivity implements WTApiLoad
            if (nearbySearchResults !=null) {
               String status = nearbySearchResults.getStatus();
               if ("OK".equalsIgnoreCase(status)) {
-                  token = nearbySearchResults.getNextToken();
+                  loadToken(nearbySearchResults);
                   List<NearbySearchResult> results = nearbySearchResults.getResults();
                   mNearbySearchFragmentManager.getNearbySearchFragment().onSearchResultLoad(results);
               }
            }
         }
+    }
+
+    private  synchronized  void loadToken(NearbySearchResults nearbySearchResults) {
+        token = nearbySearchResults.getNextToken();
     }
 
     @Override

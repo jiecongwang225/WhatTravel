@@ -99,4 +99,12 @@ public class NearbySearchResult implements Serializable {
         return rating;
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof NearbySearchResult) {
+            NearbySearchResult result = (NearbySearchResult) object;
+            return id.equals(result.getId());
+        }
+        return false;
+    }
 }

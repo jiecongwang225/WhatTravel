@@ -25,8 +25,6 @@ import java.util.Set;
 public class NearbySearchListAdapter extends RecyclerView.Adapter {
 
 
-    private final Set<String> ids = Sets.newHashSet();
-
     private final List<NearbySearchResult> m_NearbySearchResults = Lists.newArrayList();
 
     @Override
@@ -49,8 +47,7 @@ public class NearbySearchListAdapter extends RecyclerView.Adapter {
 
     public synchronized void reloadData(List<NearbySearchResult> results) {
         for (NearbySearchResult result :results) {
-            if (!ids.contains(result.getId())) {
-                ids.add(result.getId());
+            if (!m_NearbySearchResults.contains(result)) {
                 m_NearbySearchResults.add(result);
             }
         }
@@ -59,7 +56,6 @@ public class NearbySearchListAdapter extends RecyclerView.Adapter {
     }
 
     public synchronized void clear() {
-        ids.clear();
         m_NearbySearchResults.clear();
     }
 
