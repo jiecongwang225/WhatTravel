@@ -18,9 +18,7 @@ public class WTAPIConstants {
     public static final int LOAD_WHEATHER_DATA = 2;
     public static final String FORECAST_HTTP ="http";
     public static final String FORECAST_BASE_URL =  "api.openweathermap.org/data/2.5/";
-    public static final String FORECAST_QUERY_PARAM = "32608";
-    public static final String FORECAST_FORMAT_PARAM = "json";
-    public static final String FORECAST_UNITS_PARAM = "metric";
+    public static final String FORECAST_FORMAT_JSON = "json";
     public static final int FORECAST_DAYS_PARAM = 7;
 
 

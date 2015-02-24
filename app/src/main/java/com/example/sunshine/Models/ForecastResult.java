@@ -1,5 +1,6 @@
 package com.example.sunshine.Models;
 
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -45,7 +46,6 @@ public class ForecastResult implements Serializable {
         // For presentation, assume the user doesn't care about tenths of a degree.
         long roundedHigh = Math.round(high);
         long roundedLow = Math.round(low);
-
         String highLowStr = roundedHigh + "/" + roundedLow;
         return highLowStr;
     }
