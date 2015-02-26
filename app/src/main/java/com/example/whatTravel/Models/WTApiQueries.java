@@ -35,8 +35,13 @@ public abstract class WTApiQueries {
            uriBuilder.appendQueryParameter(entry.getKey(),entry.getValue());
        }
 
-       String requestUrl = uriBuilder.build().toString();
-       WTLog.debug(LOG_TAG, requestUrl);
-       return requestUrl;
+        String ret = null;
+        try {
+            ret = java.net.URLDecoder.decode(uriBuilder.build().toString(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        WTLog.debug(LOG_TAG, ret);
+       return ret;
     }
 }

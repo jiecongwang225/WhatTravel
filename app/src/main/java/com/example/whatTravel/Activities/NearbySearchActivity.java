@@ -71,6 +71,10 @@ public class NearbySearchActivity extends ActionBarActivity implements WTApiLoad
             Intent forecast = new Intent(NearbySearchActivity.this, ForecastAcitivty.class);
             startActivity(forecast);
         }
+        if(id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -1,8 +1,14 @@
 package com.example.whatTravel.Activities;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.android.volley.VolleyError;
@@ -23,6 +29,10 @@ public class ForecastAcitivty extends ActionBarActivity implements WTApiLoadMana
     private final String LOG_TAG = ForecastAcitivty.class.getSimpleName();
     private WTApiLoadManager mloadManager = WTApiLoadManager.getInstance();
 
+    public Activity getActivity() {
+        return this;
+    }
+
     private ForecastFragmentManager mForecastFragmentManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +45,9 @@ public class ForecastAcitivty extends ActionBarActivity implements WTApiLoadMana
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.forecastfragment, menu);
+        MenuInflater manueflater = getMenuInflater();
+        manueflater.inflate(R.menu.forecastfragment, menu);
+        manueflater.inflate(R.menu.menu_detail, menu);
         return true;
     }
 
@@ -43,15 +55,34 @@ public class ForecastAcitivty extends ActionBarActivity implements WTApiLoadMana
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            ForecastSearch forecastSearch = new ForecastSearch();
-            forecastSearch.setQuery(WTAPIConstants.FORECAST_QUERY_PARAM);
-            forecastSearch.setFormat(WTAPIConstants.FORECAST_FORMAT_PARAM);
-            forecastSearch.setUnits(WTAPIConstants.FORECAST_UNITS_PARAM);
-            forecastSearch.setDays(WTAPIConstants.FORECAST_DAYS_PARAM);
-            mloadManager.loadDataFromServer(WTAPIConstants.LOAD_WHEATHER_DATA, forecastSearch);
+            updateWeather();
+            return true;
+        }
+        if(id == R.id.forecast_action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        }
+        if (id == R.id.action_map) {
+            openPreferredLocationInMap();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateWeather() {
+        ForecastSearch forecastSearch = new ForecastSearch();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String location = prefs.getString(getString(R.string.pref_location_key),
+                getString(R.string.pref_location_default));
+        String unitsType = prefs.getString(getString(R.string.pref_units_key),
+                getString(R.string.pref_units_metric));
+        WTLog.debug(LOG_TAG, "Forecast location: " + location);
+        WTLog.debug(LOG_TAG, "Forecast unitsType: " + unitsType);
+        forecastSearch.setQuery(location);
+        forecastSearch.setFormat(WTAPIConstants.FORECAST_FORMAT_JSON);
+        forecastSearch.setUnits(unitsType);
+        forecastSearch.setDays(WTAPIConstants.FORECAST_DAYS_PARAM);
+        mloadManager.loadDataFromServer(WTAPIConstants.LOAD_WHEATHER_DATA, forecastSearch);
     }
 
     @Override
@@ -68,9 +99,38 @@ public class ForecastAcitivty extends ActionBarActivity implements WTApiLoadMana
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
+    }
+
+    @Override
     public void onDataLoadFailed(int loaderId, VolleyError error) {
         if (loaderId == WTAPIConstants.LOAD_WHEATHER_DATA) {
             WTLog.error(LOG_TAG, error.toString());
         }
+    }
+
+    private void openPreferredLocationInMap() {
+        SharedPreferences sharedPrefs =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        String location = sharedPrefs.getString(
+                getString(R.string.pref_location_key),
+                getString(R.string.pref_location_default)
+        );
+
+        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
+                .appendQueryParameter("q", location)
+                .build();
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+
+        if (intent.resolveActivity(getPackageManager()) != null){
+            startActivity(intent);
+        } else {
+            WTLog.debug(LOG_TAG, "Couldn't call " + location);
+        }
+
     }
 }

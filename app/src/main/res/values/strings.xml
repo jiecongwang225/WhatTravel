@@ -6,5 +6,16 @@
     <string name="action_settings">Setting</string>
     <string name="forecast">Forecast</string>
     <string name="action_refresh" translatable="false">Refresh</string>
+    <string name="title_activity_detail">DetailActivity</string>
+
+    <string name="pref_location_default" translatable="false">32608</string>
+    <string name="pref_location_key" translatable="false">location</string>
+    <string name="pref_location_label" translatable="false">Location</string>
+
+    <string name="pref_units_metric" translatable="false">metric</string>
+    <string name="pref_units_key" translatable="false">units</string>
+    <string name="pref_units_label" translatable="false">Units</string>
+    <string name="action_map" translatable="false">Map Location</string>
+    <string name="action_share" translatable="false">Share</string>
 
 </resources>
