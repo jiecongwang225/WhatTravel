@@ -30,7 +30,7 @@ public class ForecastResult implements Serializable {
         String day = getReadableDateString(getDate_time());
         String description = getWeather()[0].getDescription();
         Temperature temp = getTemperature();
-        String highAndLow = formatHighLows(temp.getMax_temp(), temp.getMax_temp());
+        String highAndLow = formatHighLows(temp.getMin_temp(), temp.getMax_temp());
         return day + " - " + description + " - " + highAndLow;
     }
 

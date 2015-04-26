@@ -79,7 +79,7 @@ public class ForecastAcitivty extends ActionBarActivity implements WTApiLoadMana
         WTLog.debug(LOG_TAG, "Forecast location: " + location);
         WTLog.debug(LOG_TAG, "Forecast unitsType: " + unitsType);
         forecastSearch.setQuery(location);
-        forecastSearch.setFormat(WTAPIConstants.FORECAST_FORMAT_JSON);
+        forecastSearch.setFormat(WTAPIConstants.JSON);
         forecastSearch.setUnits(unitsType);
         forecastSearch.setDays(WTAPIConstants.FORECAST_DAYS_PARAM);
         mloadManager.loadDataFromServer(WTAPIConstants.LOAD_WHEATHER_DATA, forecastSearch);
@@ -101,7 +101,15 @@ public class ForecastAcitivty extends ActionBarActivity implements WTApiLoadMana
     @Override
     public void onStart() {
         super.onStart();
+        mloadManager.start();
         updateWeather();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mloadManager.stop();
+
     }
 
     @Override

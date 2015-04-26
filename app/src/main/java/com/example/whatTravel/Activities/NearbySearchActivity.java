@@ -114,9 +114,10 @@ public class NearbySearchActivity extends ActionBarActivity implements WTApiLoad
     }
 
     private void loadNearby() {
-        Location currentLocation = WTLocationClient.getInstance().getLastKnowLocation();
+          Location currentLocation = WTLocationClient.getInstance().getLastKnowLocation();
         if (currentLocation !=null) {
             NearbySearch nearbySearch = new NearbySearch();
+//            nearbySearch.setCurrentLocation(new Coordinate(42.318062, -71.173985));
             nearbySearch.setCurrentLocation(new Coordinate(currentLocation.getLatitude(),currentLocation.getLongitude()));
             nearbySearch.setRadius(RADIUS);
             nearbySearch.setSearchType(SearchTypes.getAllSearchTypes());
