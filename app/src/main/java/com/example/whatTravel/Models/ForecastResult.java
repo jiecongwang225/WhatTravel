@@ -1,5 +1,6 @@
 package com.example.whatTravel.Models;
 
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -29,7 +30,7 @@ public class ForecastResult implements Serializable {
         String day = getReadableDateString(getDate_time());
         String description = getWeather()[0].getDescription();
         Temperature temp = getTemperature();
-        String highAndLow = formatHighLows(temp.getMax_temp(), temp.getMax_temp());
+        String highAndLow = formatHighLows(temp.getMin_temp(), temp.getMax_temp());
         return day + " - " + description + " - " + highAndLow;
     }
 
@@ -45,7 +46,6 @@ public class ForecastResult implements Serializable {
         // For presentation, assume the user doesn't care about tenths of a degree.
         long roundedHigh = Math.round(high);
         long roundedLow = Math.round(low);
-
         String highLowStr = roundedHigh + "/" + roundedLow;
         return highLowStr;
     }
